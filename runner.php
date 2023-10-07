@@ -30,13 +30,6 @@ if(($I = json_decode($data))->session) {
   var RSAEncrypt = new RS.JSEncrypt();
   var pub = '".str_replace("\n", '', trim($C->pub))."'
   RSAEncrypt.setPublicKey(pub);
-  var a = {
-    card_number: '$cc',
-    exp_month: '$mm',
-    exp_year: '$yyyy',
-    card_holder: '$n $l',
-    card_type: '$type'
-  };
   var encryptCardNo = RSAEncrypt.encrypt(JSON.stringify(a));
   console.log(encryptCardNo)");
   $e_cc = trim(shell_exec('node '.$x)); 
